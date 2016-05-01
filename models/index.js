@@ -4,8 +4,26 @@ var path = require('path');
 var Sequelize = require('sequelize');
 
 // Usar BBDD SQLite:
-var sequelize = new Sequelize(null, null, null, 
-						{ dialect: "sqlite", storage: "quiz.sqlite"});
+ //  DATABASE_URL = sqlite:///
+ //  DATABASE_STORAGE = quiz.sqlite
+// Usar BBDD Postgres:
+ // DATABASE_URL = postgres://upostgres://apsxqkqsttkkjm:vG38vD5q_uL4N-P8j3I9B-5TXF@ec2-54-243-195-46.compute-1.amazonaws.com:5432/dee2j847veip7l
+
+var url, storage;
+
+if (!process.env.DATABASE_URL) {
+     url = "sqlite:///";
+     storage = "quiz.sqlite";
+} else {
+     url = process.env.DATABASE_URL;
+     storage = process.env.DATABASE_STORAGE || "";
+}
+
+var sequelize = new Sequelize(url,
+                              { storage: storage,
+                                omitNull: true
+                              });
+
 
 // Importar la definición de la tabla Quiz de quiz.js
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
