@@ -14,20 +14,14 @@ exports.load = function(req, res, next, quizId) {
 	}).catch(function(error) {next(error); });
 };
 
-// GET /quizzes
-exports.search = function(req, res, next) {
-	models.Quiz.findAll({where: ["Quiz.question like ?", '%' + 'search' + '%']})
-	.then(function(quizzes) {
-		res.render('quizzes/index.ejs', {quizzes: quizzes});
-	})
-	.catch(function(error) {next(error); });
-};
+
 
 // GET /quizzes
 exports.index = function(req, res, next) {
-	models.Quiz.findAll()
+	models.Quiz.findAll({where: {question: {$like: "%" + req.query.busqueda + "%"}}})
 	.then(function(quizzes) {
 		res.render('quizzes/index.ejs', {quizzes: quizzes});
+		console.log("Búsqueda realizada")
 	})
 	.catch(function(error) {next(error); });
 };
