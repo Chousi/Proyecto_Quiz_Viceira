@@ -9,6 +9,24 @@ body 		{ font: 16px Georgia, serif;
 			  color: black;
 			  background: #eee; }
 a 			{ color: #00B7FF; }
+#flashinfo h3	{ color: black;
+			  background: #0066cc;
+			}
+#flashinfo ul	{ color: black;
+			  background: #ff6699;
+			}
+#flashsuccess h3	{ color: black;
+			  	  background: #53ff1a;
+				}
+#flashsuccess ul	{ color: black;
+			  	  background: #ff6699;
+				}
+#flasherror h3 { color: black;
+			  background: #ff0000;
+			}
+#flasherror ul { color: black;
+			  background: #ff6699;
+			}			
 
 section > div { padding: :20px; }
 
