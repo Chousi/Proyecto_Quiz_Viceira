@@ -18,8 +18,16 @@ exports.load = function(req, res, next, quizId) {
 exports.index = function(req, res, next) {
 	models.Quiz.findAll({where: {question: {$like: "%" + req.query.busqueda + "%"}}})
 	.then(function(quizzes) {
+		if (req.params.format === 'html'){
 		res.render('quizzes/index.ejs', {quizzes: quizzes});
-		console.log("Búsqueda realizada")
+		}
+		else if (req.params.format === 'json'){
+		console.log("json obtenido");
+		res.json({quizzes: quizzes});
+		}
+		else {
+		res.render('quizzes/index.ejs', {quizzes: quizzes});
+		}
 	})
 	.catch(function(error) {next(error); });
 };
@@ -30,7 +38,15 @@ exports.show = function (req, res, next) {
 	.then(function(quiz){
 		if (quiz) {
 			var answer = req.query.answer || '';
-			res.render('quizzes/show', {quiz: req.quiz, answer: answer});
+			if (req.params.format === 'html'){
+			res.render('quizzes/show.ejs', {quiz: req.quiz, answer: answer});
+			}
+			if (req.params.format === 'json'){
+			res.json({quiz: req.quiz, answer: answer});
+			}
+			else{
+			res.render('quizzes/show.ejs', {quiz: req.quiz, answer: answer});
+			}
 		} else { throw new Error ('No existe ese quiz en la BBDD.'); }
 	})
 	.catch(function(error) { next(error);});
