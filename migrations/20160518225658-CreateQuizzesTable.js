@@ -7,7 +7,7 @@ module.exports = {
       { id:        { type: Sequelize.INTEGER, allowNull: false,
                      primaryKey: true,        autoIncrement: true,
                      unique: true },
-        question:  { type: Sequelize.STRING,
+        username:  { type: Sequelize.STRING,
                      validate: { notEmpty: {msg: "Falta Pregunta"} } },
         answer:    { type: Sequelize.STRING,
                      validate: { notEmpty: {msg: "Falta Respuesta"} } },
