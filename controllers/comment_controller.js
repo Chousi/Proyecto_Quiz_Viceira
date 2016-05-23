@@ -17,6 +17,7 @@ exports.create = function(req,res,next) {
 		{ text: req.body.comment.text,
 		  QuizId: req.quiz.id
 		});
+	
 	comment.save()
 		.then(function(comment) {
 			req.flash('success', 'Comentario creado con éxito. ');

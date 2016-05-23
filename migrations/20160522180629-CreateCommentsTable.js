@@ -7,7 +7,7 @@ module.exports = {
       { id:        { type: Sequelize.INTEGER, allowNull: false,
                      primaryKey: true,        autoIncrement: true,
                      unique: true },
-        quizId:    { type: Sequelize.INTEGER},
+        QuizId:    { type: Sequelize.INTEGER},
         text:      { type: Sequelize.STRING, unique: true,
                      validate: { notEmpty: {msg: "Falta Comentario"} } },       
         createdAt: { type: Sequelize.DATE,    allowNull: false },

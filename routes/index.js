@@ -19,7 +19,7 @@ router.param('quizId', quizController.load); // autoload :quizId
 router.get('/quizzes.:format?',						quizController.index);
 router.get('/quizzes/:quizId(\\d+).:format?',		quizController.show);
 router.get('/quizzes/:quizId(\\d+)/check',			quizController.check);
-router.get('/quizzes?search=busqueda',				quizController.index);
+router.get('/quizzes',								quizController.index);
 router.get('/quizzes/new',							quizController.new);
 router.post('/quizzes',								quizController.create);
 router.get('/quizzes/:quizId(\\d+)/edit',			quizController.edit);
