@@ -70,7 +70,7 @@ exports.create = function(req, res, next) {
 								   AuthorId: authorId } );
 
 // guarda en DB los campos pregunta y respuesta de quiz
-quiz.save({fields: ["question", "answer"]})
+quiz.save({fields: ["question", "answer","AuthorId"]})
 	.then(function(quiz) {
 		req.flash('success', 'Quiz creado con éxito');
 		res.redirect('/quizzes'); // res.redirect
@@ -143,3 +143,15 @@ exports.destroy = function(req, res, next) {
 		});
 };
 
+exports.ownershipRequired = function(req, res, next) {
+	var isAdmin 	 = req.session.user.isAdmin;
+	var quizAuthorId = req.quiz.AuthorId;
+	var loggedUserId = req.session.user.id;
+
+	if (isAdmin || quizAuthorId === loggedUserId) {
+		next();
+	} else {
+		console.log('Operación prohibida: El usuario logeado no es el autor del quiz, ni un administrador');
+		res.send(403);
+	}
+};

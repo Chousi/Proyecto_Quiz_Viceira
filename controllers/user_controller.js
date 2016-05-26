@@ -124,3 +124,36 @@ exports.destroy = function(req, res, next) {
 			next(error);
 		});
 };
+
+// MW que comprueba que el usuario autenticado es admin(isAdmin) o el
+// propietario de la cuenta (userId === loggedUserId).
+
+exports.adminOrMyselfRequired = function (req, res, next) {
+	var isAdmin		 = req.session.user.isAdmin;
+	var userId 		 = req.user.id;
+	var loggedUserId = req.session.user.id;
+
+	if (isAdmin || userId === loggedUserId) {
+		next();
+	} else {
+		console.log('Ruta prohibida: no es el usuario logeado, ni un administrador.');
+		res.send(403);
+	}
+};
+
+// MW que comprueba que el usuario autenticado es admin(isAdmin) y además
+// no es el propietario de la cuenta (userId !== loggedUserId).
+// Esta condición impide borrar la cuenta Admin.
+
+exports.adminAndNotMyselfRequired = function(req, res, next){
+	var isAdmin		 = req.session.user.isAdmin;
+	var userId 		 = req.user.id;
+	var loggedUserId = req.session.user.id;
+
+	if (isAdmin && userId !== loggedUserId) {
+		next();
+	} else {
+		console.log('Ruta prohibida: no es el usuario logeado, ni un administrador.');
+		res.send(403);
+	}
+}
