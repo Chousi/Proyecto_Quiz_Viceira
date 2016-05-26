@@ -2,7 +2,10 @@
 module.exports = function(sequelize, Datatypes) {
 	return sequelize.define('Comment',
 							{ text: { type: Datatypes.STRING,
-							  validate: { notEmpty: {msg: "Falta Comentario"}}
-							}
+							  		  validate: { notEmpty: {msg: "Falta Comentario"}}
+							  		},
+							  accepted: { type: Datatypes.BOOLEAN,
+							  			  defaultValue: false
+							  			}
 						});
 };
