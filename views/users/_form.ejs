@@ -19,7 +19,7 @@
 
 <div>
 	<% if ( ! user.id) { %>
-		<label for="preg" class="rem">Username</label>
+		<label for="preg" class="rem">Username:</label>
 		<input type="text" id="username" name="user[username]" value="<%= user.username %>"/><p>
 	<% } else { %>
 		Username: <%= user.username %>
