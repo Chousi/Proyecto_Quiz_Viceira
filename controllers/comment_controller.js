@@ -29,12 +29,15 @@ exports.new = function(req,res,next) {
 
 // POST /quizzes/:quizId/comments
 exports.create = function(req,res,next) {
+	var authorId = req.session.user && req.session.user.id || 0;
+
 	var comment = models.Comment.build(
 		{ text: req.body.comment.text,
-		  QuizId: req.quiz.id
-		});
+		  QuizId: req.quiz.id,
+		  AuthorId: authorId });
 	
-	comment.save()
+	// guarda en DB el campo AuthorId (id del autor) de comment
+	comment.save(["AuthorId"])
 		.then(function(comment) {
 			req.flash('success', 'Comentario creado con éxito. ');
 			res.redirect('/quizzes/' + req.quiz.id);

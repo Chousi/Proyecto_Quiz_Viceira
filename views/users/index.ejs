@@ -4,7 +4,7 @@
 	<% for (var i in users) { %>
 	<tr>
 	 <td>
-	 	<a href="/users/<%= users[i].id %>" ><%= users[i].id %> </a>
+	 	<a href="/users/<%= users[i].id %>" ><%= users[i].username %> </a>
 	 	 <%= users[i].isAdmin ? "(admin)" : "" %>
 	 </td>
 	 <% if (session.user) { %>
