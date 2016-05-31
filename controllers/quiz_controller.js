@@ -16,7 +16,7 @@ exports.load = function(req, res, next, quizId) {
 	}).catch(function(error) {next(error); });
 };
 
-// GET /quizzes
+// GET /quizzes (con implementación de búsqueda de preguntas)
 exports.index = function(req, res, next) {
 	models.Quiz.findAll({where: {question: {$like: "%" + req.query.busqueda + "%"}}})
 	.then(function(quizzes) {
