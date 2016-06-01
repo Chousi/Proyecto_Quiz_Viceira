@@ -20,6 +20,7 @@ var authenticate = function(login, password) {
 };
 
 
+
 // Middleware: Se requiere hacer login.
 //
 // Si el usuario ya hizo login anteriormente entonces existira 
@@ -57,7 +58,7 @@ exports.create = function(req,res,next) {
 			if (user) {
 				// Crear req.session.user y guardar campos id y username
 				// La sesión se define por la existencia de: req.session.user
-				req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin};
+				req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin, lastPetition: new Date()};
 
 				res.redirect("/"); // redirección a la raíz
 			} else {

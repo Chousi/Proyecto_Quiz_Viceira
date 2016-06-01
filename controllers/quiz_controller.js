@@ -258,13 +258,14 @@ function updateAttachment(req, uploadResult, quiz) {
 		return attachment.save();
 	})
 	.then(function(attachment) {
-		req.flash('success', 'Imagen nueva guardad con éxito. ');
+		req.flash('success', 'Imagen nueva guardada con éxito. ');
 		if (old_public_id) {
 			cloudinary.api.delete_resources(old_public_id);
 		}
 	})
 	.catch(function(error) { // Ignoro errores de validación en imágenes
-		req.flash('error', 'No se ha pedido salvar la nueva imagen: '+error.message);
+		req.flash('error', 'No se ha podido salvar la nueva imagen: '
+				 +error.message);
 		cloudinary.api.delete_resources(uploadResult.public_id);
 	});
 }

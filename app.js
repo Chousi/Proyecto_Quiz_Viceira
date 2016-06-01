@@ -41,6 +41,36 @@ app.use(function(req, res, next) {
   next();
 });
 
+// Entrega P12: Middleware que para cada petición HTTP recibida realiza 
+// estas operaciones:
+// Comprobar si el usuario está logueado
+// Si lo está, comprobar si la sesión del usuario caducó
+// Si ha caducado se destruye la sesión, eliminando la información de login
+// Si no ha caducado la sesión, se reinicia el atributo donde se guarda
+// cuando caduca la sesión, estableciendo otro período de 2 minutos.
+
+//if (app.get('env') === 'production') {
+  app.use(function(req,res,next) {
+    if (req.headers['x-forwarded-proto'] === 'https'){
+      if (req.session.user){
+        var currentTime = new Date();
+        var userTime = new Date(req.session.user.lastPetition);
+        var difference = (currentTime.getTime() - userTime.getTime());
+        var timeout = 120000;
+        if (difference > timeout){
+          delete req.session.user;
+          res.redirect('/session');
+        } else {
+          req.session.user.lastPetition = new Date();
+          next(); /* Se pasa a otros MWs si no se redirige */
+        }
+      }
+    } else {
+      next();
+    }
+  });
+//}
+
 app.use('/', routes);
 
 
@@ -82,9 +112,10 @@ if (app.get('env') === 'production') {
     if(req.headers['x-forwarded-proto'] !== 'https') {
       res.redirect('https://' + req.get('Host') + req.url);
     } else {
-      next() /* Continue to other routes if we're not redirecting */
+      next(); /* Continue to other routes if we're not redirecting */
     }
   });
 }
+
 
 module.exports = app;
