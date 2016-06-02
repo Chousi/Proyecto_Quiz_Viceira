@@ -17,6 +17,21 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
+// En producción (Heroku) redirijo las peticiones http a https
+// Documentación: http://jaketrent.com/post/https-redirect-node-heroku/
+if (app.get('env') === 'production') {
+  app.use(function(req,res,next) {
+    if(req.headers['x-forwarded-proto'] !== 'https') {
+      res.redirect('https://' + req.get('Host') + req.url);
+    } else {
+      next(); /* Continue to other routes if we're not redirecting */
+    }
+  });
+}
+
+
+
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -49,7 +64,7 @@ app.use(function(req, res, next) {
 // Si no ha caducado la sesión, se reinicia el atributo donde se guarda
 // cuando caduca la sesión, estableciendo otro período de 2 minutos.
 
-//if (app.get('env') === 'production') {
+if (app.get('env') === 'production') {
   app.use(function(req,res,next) {
     if (req.headers['x-forwarded-proto'] === 'https'){
       if (req.session.user){
@@ -64,12 +79,12 @@ app.use(function(req, res, next) {
           req.session.user.lastPetition = new Date();
           next(); /* Se pasa a otros MWs si no se redirige */
         }
-      }
-    } else {
+      } else {
       next();
+      } 
     }
   });
-//}
+}
 
 app.use('/', routes);
 
@@ -105,17 +120,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// En producción (Heroku) redirijo las peticiones http a https
-// Documentación: http://jaketrent.com/post/https-redirect-node-heroku/
-if (app.get('env') === 'production') {
-  app.use(function(req,res,next) {
-    if(req.headers['x-forwarded-proto'] !== 'https') {
-      res.redirect('https://' + req.get('Host') + req.url);
-    } else {
-      next(); /* Continue to other routes if we're not redirecting */
-    }
-  });
-}
 
 
 module.exports = app;
