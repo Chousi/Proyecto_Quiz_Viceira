@@ -45,6 +45,7 @@ router.delete('/session',							sessionController.destroy); // destruir sesión
 
 // Definición de rutas de /quizzes
 router.get('/quizzes.:format?',						quizController.index);
+router.get('/quizzes?search=busqueda',				quizController.index);
 router.get('/quizzes/:quizId(\\d+).:format?',		quizController.show);
 router.get('/quizzes/:quizId(\\d+)/check',			quizController.check);
 router.get('/quizzes/new',							sessionController.loginRequired,

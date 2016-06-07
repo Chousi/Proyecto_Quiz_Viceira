@@ -36,3 +36,14 @@
 <% if (session.user) { %>
 <a href ="/quizzes/new"><button type="button">Crear preguntas</button></a>
 <% } %>
+
+<p>
+
+  <form method="get" action="/quizzes?search=busqueda">
+    <p>
+      <input type = "text" name="busqueda" value="" 
+      placeholder="Buscar preguntas"/>
+      <input type = "submit" value="Buscar">
+    </p>
+  </form>
+</p>

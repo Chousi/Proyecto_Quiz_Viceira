@@ -24,6 +24,22 @@ exports.load = function(req, res, next, quizId) {
 
 // GET /quizzes
 exports.index = function(req, res, next) {
+  if (req.query.busqueda) {
+  	models.Quiz.findAll({where: {question: {$like: "%" + req.query.busqueda + "%"}}})
+	.then(function(quizzes) {
+		if (req.params.format === 'html'){
+		res.render('quizzes/index.ejs', {quizzes: quizzes});
+		}
+		else if (req.params.format === 'json'){
+		console.log("json obtenido");
+		res.json({quizzes: quizzes});
+		}
+		else {
+		res.render('quizzes/index.ejs', {quizzes: quizzes});
+		}
+	})
+	.catch(function(error) {next(error); });
+	} else {
 	models.Quiz.findAll({ include: [ models.Attachment ] })
 	.then(function(quizzes) {
 		if (req.params.format === 'html'){
@@ -38,6 +54,7 @@ exports.index = function(req, res, next) {
 		}
 	})
 	.catch(function(error) {next(error); });
+	}
 };
 
 //GET /quizzes/:id
